@@ -1,0 +1,19 @@
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script>
+	$(document).ready(function () {
+		var w = $('#corpse').width();
+
+		var socket = io();
+	  	socket.on('new_object', function (data) {
+	  		var verticalOffset = Math.floor(Math.random() * ((data.imageheight-200) - 0) + 0);
+
+	  		$("#corpse").append("<img src='" + data.iiifbaseuri + "/50," + verticalOffset + "," + w + ",200/full/0/native.jpg'><br/>");
+	 	});
+
+		console.log('ready');
+  	});
+</script>
+
+<div id="corpse"></div>
