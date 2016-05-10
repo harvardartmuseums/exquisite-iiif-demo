@@ -25,16 +25,66 @@ router.get('/portraits', function(req, res, next) {
   	portraits[currentPortrait][Math.floor(Math.random() * portraits[currentPortrait].length)],
   	portraits[currentPortrait][Math.floor(Math.random() * portraits[currentPortrait].length)]
   ];
-  var imageParts = new Array(3);
+  var imageParts = [];
 
+  // Get part 1
   var objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[0];
   request(objectURL, {qs: {apikey: apikey}}, function(error, response, body) {
-  	var o = JSON.parse(body);
-  	
+  	var o = JSON.parse(body);  	
   	if (!o.error) {
-  		imageParts.push()
+      if (o.images.length > 0) {
+        // Get the image info
+        var imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
+        request(imageInfoURL, function(error, response, body) {
+          var imageInfo = JSON.parse(body);
+  		  imageParts.push(imageInfo['@id'] + '/0,0,' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/full/0/native.jpg');
 
-  	  res.render('portraits', { title: 'Exquisite IIIF Demo | Harvard Art Museums' });
+  		  // Get part 2
+		  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[1];
+		  request(objectURL, {qs: {apikey: apikey}}, function(error, response, body) {
+		  	o = JSON.parse(body);  	
+		  	if (!o.error) {
+		      if (o.images.length > 0) {
+		        // Get the image info
+		        imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
+		        request(imageInfoURL, function(error, response, body) {
+		          imageInfo = JSON.parse(body);
+		  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3)) + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/full/0/native.jpg');
+
+		  		  // Get part 3
+				  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[2];
+				  request(objectURL, {qs: {apikey: apikey}}, function(error, response, body) {
+				  	o = JSON.parse(body);  	
+				  	if (!o.error) {
+				      if (o.images.length > 0) {
+				        // Get the image info
+				        imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
+				        request(imageInfoURL, function(error, response, body) {
+				          imageInfo = JSON.parse(body);
+				  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3))*2 + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/full/0/native.jpg');
+
+				 	 	  res.render('portraits', { 
+				 	 	  	title: 'Exquisite IIIF Demo | Harvard Art Museums',
+				 	 	  	image_part_1: imageParts[0],
+				 	 	  	image_part_2: imageParts[1],
+				 	 	  	image_part_3: imageParts[2]
+				 	 	  });
+				  		});
+				      } else {
+				      	// report an error
+				      }
+				    }
+		  		  });
+		  		});
+		      } else {
+		      	// report an error
+		      }
+		    }
+  		  });
+       });
+
+     }
+
   	} else {
   	  res.render('error', { title: 'Exquisite IIIF Demo | Harvard Art Museums' });
   	}  
