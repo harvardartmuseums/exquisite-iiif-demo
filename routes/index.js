@@ -16,7 +16,9 @@ router.get('/corpse', function(req, res, next) {
 router.get('/portraits', function(req, res, next) {
   var portraits = [
     [291707, 292324, 219609],
-    [209314, 209315, 209317, 209273, 208811, 209272, 208810, 208822, 208823, 209328]
+    [209314, 209315, 209317, 209273, 208811, 209272, 208810, 208822, 208823, 209328],
+    [299843, 304344, 297681],
+    [230367, 230202, 230340]
   ];
 
   var currentPortrait = Math.floor(Math.random() * (portraits.length - 0) + 0);
@@ -37,7 +39,7 @@ router.get('/portraits', function(req, res, next) {
         var imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
         request(imageInfoURL, function(error, response, body) {
           var imageInfo = JSON.parse(body);
-  		  imageParts.push(imageInfo['@id'] + '/0,0,' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/full/0/native.jpg');
+  		  imageParts.push(imageInfo['@id'] + '/0,0,' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/1000,/0/native.jpg');
 
   		  // Get part 2
 		  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[1];
@@ -49,7 +51,7 @@ router.get('/portraits', function(req, res, next) {
 		        imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
 		        request(imageInfoURL, function(error, response, body) {
 		          imageInfo = JSON.parse(body);
-		  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3)) + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/full/0/native.jpg');
+		  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3)) + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/1000,/0/native.jpg');
 
 		  		  // Get part 3
 				  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[2];
@@ -61,7 +63,7 @@ router.get('/portraits', function(req, res, next) {
 				        imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
 				        request(imageInfoURL, function(error, response, body) {
 				          imageInfo = JSON.parse(body);
-				  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3))*2 + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/full/0/native.jpg');
+				  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3))*2 + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/1000,/0/native.jpg');
 
 				 	 	  res.render('portraits', { 
 				 	 	  	title: 'Exquisite IIIF Demo | Harvard Art Museums',
@@ -92,6 +94,9 @@ router.get('/portraits', function(req, res, next) {
 });
 
 router.get('/coins', function(req, res, next) {
+  var coins = [195903]
+  var imageLeftURL = 'http://ids.lib.harvard.edu/ids/iiif/20411130/0,0,1240,1174/full/0/native.jpg';
+
   res.render('coins', { title: 'Exquisite IIIF Demo | Harvard Art Museums' });
 });
 
