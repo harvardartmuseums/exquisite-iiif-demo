@@ -1,6 +1,6 @@
 # IIIF Exquisite Corpse Demo
 
-This demo uses the IIIF Presentation API to demonstrate how manifests can represent objects as well as galleries. This demo uses the Mirador viewer to present the manifests. View a live demo at https://manifest-iiif-demo.herokuapp.com/.
+This demo uses the IIIF Image API to demonstrate how slicing images can be fun and useful when building creative apps and games. View a live demo at http://exquisite-iiif-demo.herokuapp.com/.
 
 ## Requirements
 
