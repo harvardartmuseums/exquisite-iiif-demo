@@ -118,17 +118,19 @@ setInterval(function(){
         // Get the image info
         var imageInfoURL = data.records[0].images[0].iiifbaseuri + '/info.json';
         request(imageInfoURL, function(error, response, body) {
-          var imageInfo = JSON.parse(body);
+          if (response.statusCode === 200) {
+            var imageInfo = JSON.parse(body);
 
-          var r = {
-            id: data.records[0].id,
-            title: data.records[0].title,
-            baseimageurl: data.records[0].images[0].baseimageurl,
-            iiifbaseuri: data.records[0].images[0].iiifbaseuri,
-            imageheight: imageInfo.height,
-            imagewidth: imageInfo.width
+            var r = {
+              id: data.records[0].id,
+              title: data.records[0].title,
+              baseimageurl: data.records[0].images[0].baseimageurl,
+              iiifbaseuri: data.records[0].images[0].iiifbaseuri,
+              imageheight: imageInfo.height,
+              imagewidth: imageInfo.width
+            }
+            io.emit('new_object', r);
           }
-          io.emit('new_object', r);
         });
       } else {
         io.emit('error', 'bad object');
