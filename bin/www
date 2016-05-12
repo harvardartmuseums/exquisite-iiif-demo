@@ -108,9 +108,19 @@ function onSocketConnection(socket) {
 var request = require('request');
 var apikey = process.env.APIKEY;
 var objectURL = 'http://api.harvardartmuseums.org/object';
+var queryString = {
+    apikey: apikey, 
+    sort: 'random', 
+    keyword: 'portrait', 
+    classification: 'Paintings', 
+    fields: 'title,primaryimageurl,images', 
+    gallery: 'any', 
+    hasimage: 1, 
+    size: 1
+  };
 
 setInterval(function(){
-  request(objectURL, {qs: {apikey: apikey, sort: 'random', keyword: 'portrait', classification: 'Paintings', fields: 'title,primaryimageurl,images', gallery: 'any', hasimage: 1, size: 1}}, function(error, response, body) {
+  request(objectURL, {qs: queryString}, function(error, response, body) {
     var data = JSON.parse(body);
     
     if (!data.error) {
