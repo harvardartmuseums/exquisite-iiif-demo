@@ -8,8 +8,9 @@
 		var socket = io();
 	  	socket.on('new_object', function (data) {
 	  		var verticalOffset = Math.floor(Math.random() * ((data.imageheight-200) - 0) + 0);
+	  		var imageURL = data.iiifbaseuri + "/50," + verticalOffset + "," + w + ",200/full/0/native.jpg";
 
-	  		$("#corpse").append("<img src='" + data.iiifbaseuri + "/50," + verticalOffset + "," + w + ",200/full/0/native.jpg'><br/>");
+	  		$("#corpse").append("<img src='" + imageURL + "'><br/>");
 	 	});
 
 		console.log('ready');
