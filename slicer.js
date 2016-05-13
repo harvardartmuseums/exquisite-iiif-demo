@@ -26,7 +26,7 @@ exports.start = function(server) {
 function onSocketConnection(socket) {
   // Start the broadcasting process only on the first client connection 
   if (connectionCount === 0) startBroadcasting();
-  
+
   connectionCount++;
   console.log('connections: ', connectionCount);
 
@@ -63,12 +63,9 @@ function startBroadcasting() {
                   imagewidth: imageInfo.width
                 }
                 io.emit('new_object', r);
-                console.log('emit');  
               }
             });
-          } else {
-            io.emit('error', 'bad object');
-          } 
+          }
         }
       }
     });
