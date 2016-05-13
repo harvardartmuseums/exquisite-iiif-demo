@@ -15,23 +15,37 @@ var queryString = {
   };
 
 var io;
+var connectionCount = 0;
+var broadcaster;
 
 exports.start = function(server) {
   io = new socketServer(server);
   io.on('connection', onSocketConnection);
-  startBroadcasting();
 } 
 
 function onSocketConnection(socket) {
-  console.log('connected');
+  // Start the broadcasting process only on the first client connection 
+  if (connectionCount === 0) startBroadcasting();
+  
+  connectionCount++;
+  console.log('connections: ', connectionCount);
+
+  socket.on('disconnect', function() {
+    connectionCount--;
+
+    // Stop the broadcasting process if there are no client connections
+    if (connectionCount === 0) {
+      stopBroadcasting();
+    }
+    console.log('connections: ', connectionCount);
+  });
 }
 
 function startBroadcasting() {
-  setInterval(function(){
+  broadcaster = setInterval(function(){
     request(objectURL, {qs: queryString}, function(error, response, body) {
       if (!error) {
         var data = JSON.parse(body);
-        
         if (!data.error) {
           if (data.records[0].images.length > 0) {
             // Get the image info
@@ -49,6 +63,7 @@ function startBroadcasting() {
                   imagewidth: imageInfo.width
                 }
                 io.emit('new_object', r);
+                console.log('emit');  
               }
             });
           } else {
@@ -58,4 +73,8 @@ function startBroadcasting() {
       }
     });
   }, 5000);  
+}
+
+function stopBroadcasting() {
+  clearInterval(broadcaster);
 }
