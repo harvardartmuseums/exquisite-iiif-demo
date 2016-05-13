@@ -15,9 +15,9 @@ var queryString = {
   };
 
 var io;
-var connectionCount = 0;
-var broadcaster;  
-var objectList = [];
+var connectionCount = 0;  // the number of clients connected to the socket server
+var broadcaster;  // stores the broadcasting function
+var objectList = [];  // a list the objects broadcasted to clients
 
 exports.start = function(server) {
   io = new socketServer(server);
@@ -31,6 +31,7 @@ function onSocketConnection(socket) {
   connectionCount++;
   console.log('connections: ', connectionCount);
 
+  // Send the list objects to new clients so all connections are seeing the exact same list
   socket.emit('current_objects', objectList);
 
   socket.on('disconnect', function() {

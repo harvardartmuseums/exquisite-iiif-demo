@@ -5,9 +5,14 @@ This demo uses the IIIF Image API to demonstrate how slicing images can be fun a
 ## Requirements
 
 * NodeJS
-* Harvard Art Museums API Key
+* Harvard Art Museums API Key (get one [here](http://www.harvardartmuseums.org/collections/api))
 
-## Configuration
+### Installation
+```
+npm install 
+```
+
+### Configuration
 
 This application requires the following environment variables.  
 
@@ -19,3 +24,8 @@ APIKEY = 000000-00000-00000-000000-000000
 ```
 npm start
 ```
+
+## Features
+
+  * Portrait generator
+  * Exquisite corpse generator
