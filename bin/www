@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var slicer = require('../slicer');
 var debug = require('debug')('exquisite-iiif-demo:server');
 var http = require('http');
 
@@ -22,19 +23,18 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
- * Create Socket server.
- */
-
-var io = require('socket.io')(server);
-io.on('connection', onSocketConnection);
-
-/**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Create and start the slicer (corpse) sub-app.
+ */
+
+slicer.start(server);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -95,56 +95,3 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-
-/**
- * Event listener for socket server events.
- */
-
-function onSocketConnection(socket) {
-  console.log('connected');
-}
-
-var request = require('request');
-var apikey = process.env.APIKEY;
-var objectURL = 'http://api.harvardartmuseums.org/object';
-var queryString = {
-    apikey: apikey, 
-    sort: 'random', 
-    keyword: 'portrait', 
-    classification: 'Paintings', 
-    fields: 'title,primaryimageurl,images', 
-    gallery: 'any', 
-    hasimage: 1, 
-    size: 1
-  };
-
-setInterval(function(){
-  request(objectURL, {qs: queryString}, function(error, response, body) {
-    var data = JSON.parse(body);
-    
-    if (!data.error) {
-      if (data.records[0].images.length > 0) {
-        // Get the image info
-        var imageInfoURL = data.records[0].images[0].iiifbaseuri + '/info.json';
-        request(imageInfoURL, function(error, response, body) {
-          if (response.statusCode === 200) {
-            var imageInfo = JSON.parse(body);
-
-            var r = {
-              id: data.records[0].id,
-              title: data.records[0].title,
-              baseimageurl: data.records[0].images[0].baseimageurl,
-              iiifbaseuri: data.records[0].images[0].iiifbaseuri,
-              imageheight: imageInfo.height,
-              imagewidth: imageInfo.width
-            }
-            io.emit('new_object', r);
-          }
-        });
-      } else {
-        io.emit('error', 'bad object');
-      } 
-    }
-  });
-}, 5000);  
