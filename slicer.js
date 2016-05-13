@@ -18,6 +18,7 @@ var io;
 var connectionCount = 0;  // the number of clients connected to the socket server
 var broadcaster;  // stores the broadcasting function
 var objectList = [];  // a list the objects broadcasted to clients
+var maxObjectCount = 20;  // max number of past emitted objects to track
 
 exports.start = function(server) {
   io = new socketServer(server);
@@ -66,8 +67,14 @@ function startBroadcasting() {
                   imageheight: imageInfo.height,
                   imagewidth: imageInfo.width
                 }
+
+                // Keep the object list under control 
+                if (objectList.length >= maxObjectCount) objectList = [];
+
+                // Add the new item to the list
                 objectList.push(r);
 
+                // Send the new object to all clients
                 io.emit('new_object', r);
               }
             });
