@@ -16,7 +16,8 @@ var queryString = {
 
 var io;
 var connectionCount = 0;
-var broadcaster;
+var broadcaster;  
+var objectList = [];
 
 exports.start = function(server) {
   io = new socketServer(server);
@@ -29,6 +30,8 @@ function onSocketConnection(socket) {
 
   connectionCount++;
   console.log('connections: ', connectionCount);
+
+  socket.emit('current_objects', objectList);
 
   socket.on('disconnect', function() {
     connectionCount--;
@@ -62,6 +65,8 @@ function startBroadcasting() {
                   imageheight: imageInfo.height,
                   imagewidth: imageInfo.width
                 }
+                objectList.push(r);
+
                 io.emit('new_object', r);
               }
             });
@@ -74,4 +79,5 @@ function startBroadcasting() {
 
 function stopBroadcasting() {
   clearInterval(broadcaster);
+  objectList = [];
 }

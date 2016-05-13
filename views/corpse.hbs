@@ -7,11 +7,20 @@
 
 		var socket = io();
 	  	socket.on('new_object', function (data) {
+	  		addImage(data);
+	 	});
+
+	 	socket.on('current_objects', function (data) {
+	 		for (var i = 0; i < data.length; i++) {
+	 			addImage(data[i]);
+	 		}
+	 	});
+	 	function addImage(data) {
 	  		var verticalOffset = Math.floor(Math.random() * ((data.imageheight-200) - 0) + 0);
 	  		var imageURL = data.iiifbaseuri + "/0," + verticalOffset + "," + data.imagewidth + ",200/" + w + ",/0/native.jpg";
 
 	  		$("#corpse").append("<img src='" + imageURL + "'><br/>");
-	 	});
+	  	}
 
 		console.log('ready');
   	});
