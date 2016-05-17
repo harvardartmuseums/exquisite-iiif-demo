@@ -39,7 +39,7 @@ router.get('/portraits', function(req, res, next) {
         var imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
         request(imageInfoURL, function(error, response, body) {
           var imageInfo = JSON.parse(body);
-  		  imageParts.push(imageInfo['@id'] + '/0,0,' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/1000,/0/native.jpg');
+  		  imageParts.push(imageInfo['@id'] + '/0,0,' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/500,/0/native.jpg');
 
   		  // Get part 2
 		  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[1];
@@ -51,7 +51,7 @@ router.get('/portraits', function(req, res, next) {
 		        imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
 		        request(imageInfoURL, function(error, response, body) {
 		          imageInfo = JSON.parse(body);
-		  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3)) + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/1000,/0/native.jpg');
+		  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3)) + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/500,/0/native.jpg');
 
 		  		  // Get part 3
 				  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[2];
@@ -63,7 +63,7 @@ router.get('/portraits', function(req, res, next) {
 				        imageInfoURL = o.images[0].iiifbaseuri + '/info.json';
 				        request(imageInfoURL, function(error, response, body) {
 				          imageInfo = JSON.parse(body);
-				  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3))*2 + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/1000,/0/native.jpg');
+				  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3))*2 + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/500,/0/native.jpg');
 
 				 	 	  res.render('portraits', { 
 				 	 	  	title: 'Exquisite IIIF Demo | Harvard Art Museums',
