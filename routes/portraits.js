@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 
+var apikey = process.env.APIKEY;
+
 router.get('/', function(req, res, next) {
   var portraits = [
     [291707, 292324, 219609],
