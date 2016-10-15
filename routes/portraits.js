@@ -3,15 +3,16 @@ var router = express.Router();
 var request = require('request');
 
 var apikey = process.env.APIKEY;
+var apiBaseURL = 'http://api.harvardartmuseums.org/object';
+
+var portraits = [
+	[291707, 292324, 219609],
+	[209314, 209315, 209317, 209273, 208811, 209272, 208810, 208822, 208823, 209328],
+	[299843, 304344, 297681],
+	[230367, 230202, 230340]
+];
 
 router.get('/', function(req, res, next) {
-  var portraits = [
-    [291707, 292324, 219609],
-    [209314, 209315, 209317, 209273, 208811, 209272, 208810, 208822, 208823, 209328],
-    [299843, 304344, 297681],
-    [230367, 230202, 230340]
-  ];
-
   var currentPortrait = Math.floor(Math.random() * (portraits.length - 0) + 0);
   var currentObjectList = [
   	portraits[currentPortrait][Math.floor(Math.random() * portraits[currentPortrait].length)],
@@ -21,7 +22,7 @@ router.get('/', function(req, res, next) {
   var imageParts = [];
 
   // Get part 1
-  var objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[0];
+  var objectURL = apiBaseURL + '/' + currentObjectList[0];
   request(objectURL, {qs: {apikey: apikey}}, function(error, response, body) {
   	var o = JSON.parse(body);  	
   	if (!o.error) {
@@ -33,7 +34,7 @@ router.get('/', function(req, res, next) {
   		  imageParts.push(imageInfo['@id'] + '/0,0,' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/500,/0/native.jpg');
 
   		  // Get part 2
-		  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[1];
+		  objectURL = apiBaseURL + '/' + currentObjectList[1];
 		  request(objectURL, {qs: {apikey: apikey}}, function(error, response, body) {
 		  	o = JSON.parse(body);  	
 		  	if (!o.error) {
@@ -45,7 +46,7 @@ router.get('/', function(req, res, next) {
 		  		  imageParts.push(imageInfo['@id'] + '/0,' + Math.floor((imageInfo.height/3)) + ',' + imageInfo.width + ',' + Math.floor((imageInfo.height/3)) + '/500,/0/native.jpg');
 
 		  		  // Get part 3
-				  objectURL = 'http://api.harvardartmuseums.org/object/' + currentObjectList[2];
+				  objectURL = apiBaseURL + '/' + currentObjectList[2];
 				  request(objectURL, {qs: {apikey: apikey}}, function(error, response, body) {
 				  	o = JSON.parse(body);  	
 				  	if (!o.error) {
