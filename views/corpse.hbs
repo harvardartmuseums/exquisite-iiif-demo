@@ -19,7 +19,7 @@
 	  		var verticalOffset = Math.floor(Math.random() * ((data.imageheight-200) - 0) + 0);
 	  		var imageURL = data.iiifbaseuri + "/0," + verticalOffset + "," + data.imagewidth + ",200/full/0/native.jpg";
 
-	  		$("#corpse").append("<img class='img-responsive' src='" + imageURL + "'>");
+	  		$("#corpse").append("<img class='img-responsive corpse-slice' src='" + imageURL + "'>");
 	  	}
 
 		console.log('ready');

@@ -10,3 +10,7 @@ a {
 .img-responsive {
 	margin: 0 auto;
 }
+
+img, .corpse-slice {
+	margin-bottom: 3px;
+}
