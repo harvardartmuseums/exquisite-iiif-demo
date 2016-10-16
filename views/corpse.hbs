@@ -17,13 +17,15 @@
 	 	});
 	 	function addImage(data) {
 	  		var verticalOffset = Math.floor(Math.random() * ((data.imageheight-200) - 0) + 0);
-	  		var imageURL = data.iiifbaseuri + "/0," + verticalOffset + "," + data.imagewidth + ",200/" + w + ",/0/native.jpg";
+	  		var imageURL = data.iiifbaseuri + "/0," + verticalOffset + "," + data.imagewidth + ",200/full/0/native.jpg";
 
-	  		$("#corpse").append("<img src='" + imageURL + "'><br/>");
+	  		$("#corpse").append("<img class='img-responsive' src='" + imageURL + "'>");
 	  	}
 
 		console.log('ready');
   	});
 </script>
 
-<div id="corpse"></div>
+<div class="container">
+	<section id="corpse"></section>
+</div>
