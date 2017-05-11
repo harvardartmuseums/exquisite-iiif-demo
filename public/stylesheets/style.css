@@ -14,3 +14,15 @@ a {
 img, .corpse-slice {
 	margin-bottom: 3px;
 }
+
+#corpse-h {
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
+}
+
+img, .corpse-slice-h {
+	/*margin-bottom: 3px;*/
+	display: inline-block;
+	height: 100%;
+}

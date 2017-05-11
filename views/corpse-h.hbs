@@ -1,0 +1,36 @@
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script>
+	$(document).ready(function () {
+		var w = $('#corpse-h').width();
+		var h = $(window).height();
+
+		$("body").css("padding", "0px");
+		$("#corpse-h").height(h);
+
+		var socket = io();
+	  	socket.on('new_object', function (data) {
+	  		addImage(data);
+	 	});
+
+	 	socket.on('current_objects', function (data) {
+	 		for (var i = 0; i < data.length; i++) {
+	 			addImage(data[i]);
+	 		}
+	 	});
+
+	 	function addImage(data) {
+	  		var horizontalOffset = Math.floor(Math.random() * ((data.imagewidth-200) - 0) + 0);
+	  		var imageURL = data.iiifbaseuri + "/" + horizontalOffset + ",0,200," + data.imageheight + "/full/0/native.jpg";
+
+	  		$("#corpse-h").append("<img class='img-responsive corpse-slice-h' src='" + imageURL + "'>");
+	  	}
+
+		console.log('ready');
+  	});
+</script>
+
+<div>
+	<section id="corpse-h"></section>
+</div>
