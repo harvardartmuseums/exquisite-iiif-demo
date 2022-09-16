@@ -1,6 +1,12 @@
+# :warning: ARCHIVED
+
+This project is no longer maintained. It was a demo site built to illustrate simple, creative uses of IIIF. 
+
 # IIIF Exquisite Corpse Demo
 
 This demo uses the IIIF Image API to demonstrate how slicing images can be fun and useful when building creative apps and games. View a live demo at http://exquisite-iiif-demo.herokuapp.com/.
+
+![exquisite-iiif-demo](https://user-images.githubusercontent.com/3187493/190716328-fb47c495-98fc-4373-910a-712fc020cb0a.png)
 
 ## Requirements
 
